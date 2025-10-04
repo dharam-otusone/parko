@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class StaffOnboardingStep2 extends StatefulWidget {
   const StaffOnboardingStep2({Key? key}) : super(key: key);
@@ -180,7 +181,9 @@ class _StaffOnboardingStep2State extends State<StaffOnboardingStep2> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.go('/profile');
+                      },
                       child: const Text(
                         "Next",
                         style: TextStyle(

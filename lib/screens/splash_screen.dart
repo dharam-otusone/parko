@@ -15,6 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     // Wait for 3 seconds before navigating to HomeScreen
+    if (!mounted) return;
     Future.delayed(const Duration(seconds: 3), () {
       // Navigate to HomeScreen after the delay
       context.go('/signup');
