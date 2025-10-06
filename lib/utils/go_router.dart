@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:parko/screens/assemblyline_inspectionform.dart';
 import 'package:parko/screens/editprofilescreen.dart';
 import 'package:parko/screens/home_screen.dart';
+import 'package:parko/screens/incomig_inspection_report_form.dart';
 import 'package:parko/screens/incoming_inspection.dart';
 import 'package:parko/screens/inputfield.dart';
+import 'package:parko/screens/inspectsummary.dart';
 import 'package:parko/screens/newform.dart';
 import 'package:parko/screens/profilescreen.dart';
+import 'package:parko/screens/report_form.dart';
 import 'package:parko/screens/signup_screen.dart';
 import 'package:parko/screens/splash_screen.dart';
 import 'package:parko/screens/staffonboardingscreen.dart';
 import 'package:parko/screens/staffonboardingtwo.dart';
+import 'package:parko/screens/surfacecoatinginspection.dart';
 import 'package:parko/screens/update_password.dart';
 
 GoRouter setupRouter() {
@@ -20,7 +25,7 @@ GoRouter setupRouter() {
       GoRoute(
         path: '/',
         builder: (BuildContext context, GoRouterState state) {
-          return SplashScreen();
+          return AssemblyLineInspectionForm();
         },
       ),
 
@@ -77,7 +82,7 @@ GoRouter setupRouter() {
       GoRoute(
         path: '/inpectionform',
         builder: (BuildContext context, GoRouterState state) {
-          return IncomingInspection();
+          return IncomingInspectionForm();
         },
       ),
     ],

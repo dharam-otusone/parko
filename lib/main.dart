@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     final GoRouter router = setupRouter();
     return MaterialApp.router(
       title: 'Parko',
-
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: const Color(0xFFEC3237),
         colorScheme: ColorScheme.fromSeed(
