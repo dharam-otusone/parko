@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:parko/provider/auth_providers.dart';
+import 'package:provider/provider.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
-
   @override
   State<SignInScreen> createState() => _SignInScreenState();
 }
@@ -12,11 +13,10 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool _obscurePassword = true;
-
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
     final size = MediaQuery.of(context).size;
-
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -87,10 +87,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ],
                 ),
-
                 SizedBox(height: size.height * 0.05),
-
-                // Email Field
                 TextField(
                   controller: emailController,
                   decoration: InputDecoration(
@@ -147,25 +144,36 @@ class _SignInScreenState extends State<SignInScreen> {
                 SizedBox(height: size.height * 0.04),
 
                 // Login Button
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                authProvider.isLoading
+                    ? const CircularProgressIndicator()
+                    : ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        minimumSize: const Size(double.infinity, 50),
+                      ),
+                      onPressed: () async {
+                        final success = await authProvider.login(
+                          emailController.text.trim(),
+                          passwordController.text.trim(),
+                        );
+                        if (success) {
+                          context.go('/home');
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                authProvider.errorMessage ?? 'Login failed',
+                              ),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text(
+                        "Log In",
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
-                    onPressed: () {
-                      context.go('/home');
-                    },
-                    child: const Text(
-                      "Log In",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),

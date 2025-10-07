@@ -35,18 +35,66 @@ class SideBarMenu extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           // Profile Section
-          UserAccountsDrawerHeader(
+          Container(
+            height: 180, // Increased height
             decoration: BoxDecoration(color: Colors.red.shade600),
-            accountName: const Text("Shreya Babukar"),
-            accountEmail: const Text("Admin"),
-            currentAccountPicture: const CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Icon(Icons.person, color: Colors.red),
+            child: Stack(
+              children: [
+                Positioned(
+                  bottom: 16,
+                  left: 16,
+                  right: 16,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      // Profile Picture
+                      const CircleAvatar(
+                        radius: 36, // Increased size
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.red,
+                          size: 40,
+                        ), // Increased icon size
+                      ),
+                      const SizedBox(width: 16),
+                      // User Info
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Text(
+                              "Shreya Babukar",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            const Text(
+                              "Admin",
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
 
-          // Dashboard with 2 submenus
+          // Dashboard
           ExpansionTile(
+            showTrailingIcon: false,
+            collapsedIconColor: Colors.white,
+            iconColor: Colors.white,
             leading: const Icon(Icons.dashboard, color: Colors.white),
             title: const Text(
               "Dashboard",
@@ -70,8 +118,9 @@ class SideBarMenu extends StatelessWidget {
             ],
           ),
 
-          // Suppliers with 2 submenus
+          // Suppliers
           ExpansionTile(
+            showTrailingIcon: false,
             leading: const Icon(Icons.group, color: Colors.white),
             title: const Text(
               "Suppliers",
@@ -83,83 +132,70 @@ class SideBarMenu extends StatelessWidget {
                   "All Suppliers",
                   style: TextStyle(color: Colors.white70),
                 ),
-                onTap: () => context.go('/suppliers/all'),
+                onTap: () => context.go('/dashboard/suppliers/all'),
               ),
               ListTile(
                 title: const Text(
-                  "Add Suppliers",
+                  "Add Supplier",
                   style: TextStyle(color: Colors.white70),
                 ),
-                onTap: () => context.go('/suppliers/add'),
+                onTap: () => context.go('/dashboard/suppliers/add'),
               ),
             ],
           ),
 
-          // Items from Submitted Form onwards (always 2 submenus)
-          _buildSubMenu(
-            context,
-            "Submitted Form",
-            Icons.assignment,
-            "/submittedform",
-          ),
-          _buildSubMenu(
-            context,
-            "Form Templates",
-            Icons.article,
-            "/formtemplates",
-          ),
+          // Other Submenus
           _buildSubMenu(
             context,
             "Incoming Inspection",
             Icons.search,
-            "/incominginspection",
+            "/dashboard/incominginspection",
           ),
           _buildSubMenu(
             context,
             "Forming Process Inspection",
             Icons.fact_check,
-            "/formingprocess",
+            "/dashboard/forminginspection",
           ),
           _buildSubMenu(
             context,
             "Surface Coating Inspection",
             Icons.format_paint,
-            "/surfacecoating",
+            "/dashboard/surfacecoating",
           ),
           _buildSubMenu(
             context,
             "Assembly Line Inspection",
             Icons.precision_manufacturing,
-            "/assemblyline",
+            "/dashboard/assemblyline",
           ),
           _buildSubMenu(
             context,
             "Stamping Inspection",
             Icons.stay_primary_landscape,
-            "/stamping",
+            "/dashboard/stamping",
           ),
           _buildSubMenu(
             context,
             "Packaging Inspection",
             Icons.inventory,
-            "/packaging",
+            "/dashboard/packaging",
           ),
           _buildSubMenu(
             context,
             "Final PDIR",
             Icons.check_circle,
-            "/finalpdir",
+            "/dashboard/finalpdir",
           ),
           _buildSubMenu(
             context,
             "QC Parameter",
             Icons.settings,
-            "/qcparameter",
+            "/dashboard/qcparameter",
           ),
 
           const Divider(color: Colors.white54),
 
-          // Bottom button
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton.icon(
@@ -178,7 +214,6 @@ class SideBarMenu extends StatelessWidget {
     );
   }
 
-  /// Helper to build submenu items with "Create New" and "All"
   Widget _buildSubMenu(
     BuildContext context,
     String title,
@@ -186,6 +221,7 @@ class SideBarMenu extends StatelessWidget {
     String baseRoute,
   ) {
     return ExpansionTile(
+      showTrailingIcon: false,
       leading: Icon(icon, color: Colors.white),
       title: Text(title, style: const TextStyle(color: Colors.white)),
       children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SurfaceCoatingInspection extends StatefulWidget {
   const SurfaceCoatingInspection({Key? key}) : super(key: key);
@@ -31,6 +32,12 @@ class _SurfaceCoatingInspectionState extends State<SurfaceCoatingInspection> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            context.go('/home');
+          },
+          icon: Icon(Icons.arrow_back, color: Colors.red),
+        ),
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,

@@ -1,31 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class AssemblyLineInspectionForm extends StatefulWidget {
-  const AssemblyLineInspectionForm({Key? key}) : super(key: key);
+class StampingInspectionScreen extends StatefulWidget {
+  const StampingInspectionScreen({Key? key}) : super(key: key);
 
   @override
-  State<AssemblyLineInspectionForm> createState() =>
-      _AssemblyLineInspectionFormState();
+  State<StampingInspectionScreen> createState() =>
+      _StampingInspectionScreenState();
 }
 
-class _AssemblyLineInspectionFormState
-    extends State<AssemblyLineInspectionForm> {
+class _StampingInspectionScreenState extends State<StampingInspectionScreen> {
   final TextEditingController batchNumberController = TextEditingController();
   final TextEditingController inspectionDateController =
       TextEditingController();
   final TextEditingController sampleSizeController = TextEditingController();
-  final TextEditingController lineNumberController = TextEditingController();
-  final TextEditingController stationIdController = TextEditingController();
+  final TextEditingController dimensionController = TextEditingController();
+  final TextEditingController remarkController = TextEditingController();
 
   String? selectedInspector;
   String? selectedShift;
+  String? selectedVisualCheck;
+  String? selectedFinalStatus;
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            context.go('/home');
+          },
+          icon: Icon(Icons.arrow_back, color: Colors.red),
+        ),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: const Text(
+          "Stamping\nInspections",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Color(0xFFEC3237),
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            height: 1.2,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -33,26 +54,15 @@ class _AssemblyLineInspectionFormState
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 500),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Heading
-                  const Text(
-                    "Assembly / Station\nInspection Form",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFFEC3237),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 25),
-
                   // Batch Number
                   _buildTextField(
                     "Batch Number *",
                     "Enter number",
                     batchNumberController,
                   ),
+                  const SizedBox(height: 12),
 
                   // Inspector Name Dropdown
                   _buildDropdown(
@@ -62,19 +72,15 @@ class _AssemblyLineInspectionFormState
                     items: ["Inspector 1", "Inspector 2", "Inspector 3"],
                     onChanged: (val) => setState(() => selectedInspector = val),
                   ),
+                  const SizedBox(height: 12),
 
-                  const SizedBox(height: 10),
-
-                  // Section container for Shift / Date / Sample Size
+                  // Section for Shift / Date / Sample Size
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: Colors.red.shade50,
-                      border: Border.all(
-                        color: Colors.red.shade200,
-                        style: BorderStyle.solid,
-                      ),
+                      border: Border.all(color: Colors.red.shade200),
                       borderRadius: BorderRadius.circular(12),
+                      color: Colors.white,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,47 +108,72 @@ class _AssemblyLineInspectionFormState
                       ],
                     ),
                   ),
+                  const SizedBox(height: 16),
 
-                  const SizedBox(height: 20),
-
-                  // Line Number
+                  // Dimension Check
                   _buildTextField(
-                    "Line Number",
-                    "Assembly Line Number",
-                    lineNumberController,
+                    "Dimension Check",
+                    "Enter Dimension",
+                    dimensionController,
                   ),
-
                   const SizedBox(height: 12),
 
-                  // Station ID
-                  _buildTextField(
-                    "Station ID",
-                    "Station Identifier",
-                    stationIdController,
+                  // Visual Check Dropdown
+                  _buildDropdown(
+                    title: "Visual Check",
+                    hint: "Select Visual Inspection Result",
+                    value: selectedVisualCheck,
+                    items: ["OK", "Not OK", "Rework", "Hold"],
+                    onChanged:
+                        (val) => setState(() => selectedVisualCheck = val),
                   ),
+                  const SizedBox(height: 12),
+
+                  // Final Status Dropdown
+                  _buildDropdown(
+                    title: "Final Status",
+                    hint: "Select Overall Inspection Status",
+                    value: selectedFinalStatus,
+                    items: ["Accepted", "Rejected", "Hold"],
+                    onChanged:
+                        (val) => setState(() => selectedFinalStatus = val),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Remark Field
+                  _buildTextField(
+                    "Remark",
+                    "Add any additional remarks",
+                    remarkController,
+                    maxLines: 3,
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Upload Photo
+                  _buildUploadBox(),
 
                   const SizedBox(height: 30),
 
-                  // Next Button
+                  // Submit Button
                   SizedBox(
                     width: double.infinity,
                     height: 48,
                     child: ElevatedButton(
                       onPressed: () {
-                        // TODO: handle next navigation
+                        // TODO: handle submit action
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFEC3237),
+                        backgroundColor: Colors.green,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                       child: const Text(
-                        "Next",
+                        "Submit",
                         style: TextStyle(
-                          fontWeight: FontWeight.w600,
                           color: Colors.white,
                           fontSize: 16,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
@@ -156,12 +187,13 @@ class _AssemblyLineInspectionFormState
     );
   }
 
-  // 🔹 Custom reusable textfield builder
+  /// 🔹 Reusable TextField
   Widget _buildTextField(
     String label,
     String hint,
-    TextEditingController controller,
-  ) {
+    TextEditingController controller, {
+    int maxLines = 1,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -182,6 +214,7 @@ class _AssemblyLineInspectionFormState
           ),
           child: TextField(
             controller: controller,
+            maxLines: maxLines,
             style: const TextStyle(fontSize: 14, color: Colors.black87),
             decoration: InputDecoration(
               hintText: hint,
@@ -198,7 +231,7 @@ class _AssemblyLineInspectionFormState
     );
   }
 
-  // 🔹 Custom reusable dropdown builder
+  /// 🔹 Reusable Dropdown
   Widget _buildDropdown({
     required String title,
     required String hint,
@@ -222,6 +255,7 @@ class _AssemblyLineInspectionFormState
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
             color: Colors.red.shade50,
+            border: Border.all(color: Colors.red.shade200, width: 1.5),
             borderRadius: BorderRadius.circular(10),
           ),
           child: DropdownButtonHideUnderline(
@@ -234,6 +268,50 @@ class _AssemblyLineInspectionFormState
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
               onChanged: onChanged,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// 🔹 Upload Photo Box
+  Widget _buildUploadBox() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "Upload Photos",
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+            color: Colors.black,
+          ),
+        ),
+        const SizedBox(height: 6),
+        GestureDetector(
+          onTap: () {
+            // TODO: Add upload image logic
+          },
+          child: Container(
+            height: 60,
+            decoration: BoxDecoration(
+              color: Colors.red.shade50,
+              border: Border.all(color: Colors.red.shade200, width: 1.5),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(Icons.upload, color: Colors.redAccent),
+                  SizedBox(width: 6),
+                  Text(
+                    "Tap to Upload photo",
+                    style: TextStyle(color: Colors.black54, fontSize: 14),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

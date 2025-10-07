@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class IncomingInspectionSummary extends StatelessWidget {
   const IncomingInspectionSummary({Key? key}) : super(key: key);
@@ -10,6 +11,12 @@ class IncomingInspectionSummary extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            context.go('/home');
+          },
+          icon: Icon(Icons.arrow_back, color: Colors.red),
+        ),
         elevation: 0,
         backgroundColor: Colors.white,
         centerTitle: true,

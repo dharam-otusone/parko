@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class IncomingInspectionForm extends StatefulWidget {
   const IncomingInspectionForm({Key? key}) : super(key: key);
@@ -22,6 +23,12 @@ class _IncomingInspectionFormState extends State<IncomingInspectionForm> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            context.go('/home');
+          },
+          icon: Icon(Icons.arrow_back, color: Colors.red),
+        ),
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
@@ -110,6 +117,7 @@ class _IncomingInspectionFormState extends State<IncomingInspectionForm> {
                   ),
                 ),
                 onPressed: () {
+                  context.go('/surfacecoatingform');
                   // Handle Next button action
                   debugPrint("Form Submitted");
                 },
