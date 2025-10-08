@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:parko/provider/auth_providers.dart';
+import 'package:parko/provider/auth_provider.dart';
+
 import 'package:provider/provider.dart';
 
 class SignInScreen extends StatefulWidget {

@@ -56,12 +56,8 @@ GoRouter setupRouter() {
 
       // Onboarding
       GoRoute(
-        path: '/staffonboarding',
+        path: '/dashboard/staffonboardscreen',
         builder: (context, state) => StaffOnboardingScreen(),
-      ),
-      GoRoute(
-        path: '/staffonboarding2',
-        builder: (context, state) => StaffOnboardingStep2(),
       ),
 
       // Profile

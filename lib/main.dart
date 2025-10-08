@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:parko/provider/auth_providers.dart';
+import 'package:parko/provider/auth_provider.dart';
+import 'package:parko/provider/staffonboarding_provider.dart';
+import 'package:parko/provider/usernameprovider.dart';
+
 import 'package:parko/screens/admin/splash_screen.dart';
 import 'package:parko/utils/go_router.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +11,11 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => AuthProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (context) => StaffOnboardingProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => UsernameProvider()),
+      ],
       child: const MyApp(),
     ),
   );

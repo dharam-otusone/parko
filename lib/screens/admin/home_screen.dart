@@ -117,6 +117,19 @@ class SideBarMenu extends StatelessWidget {
               ),
             ],
           ),
+          ExpansionTile(
+            showTrailingIcon: false,
+            collapsedIconColor: Colors.white,
+            iconColor: Colors.white,
+            leading: const Icon(Icons.dashboard, color: Colors.white),
+            title: GestureDetector(
+              onTap: () => context.go('/dashboard/staffonboardscreen'),
+              child: const Text(
+                "Staff Onboarding",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
 
           // Suppliers
           ExpansionTile(
