@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:parko/screens/admin/all_inspection.dart';
 import 'package:parko/screens/admin/assemblyline_inspectionform.dart';
 import 'package:parko/screens/admin/batchdetailscreen.dart';
 import 'package:parko/screens/admin/editprofilescreen.dart';
 import 'package:parko/screens/admin/forming_inspection.dart';
+import 'package:parko/screens/admin/forminginspection.dart';
 import 'package:parko/screens/admin/home_screen.dart';
 import 'package:parko/screens/admin/incomig_inspection_report_form.dart';
 import 'package:parko/screens/admin/incoming_inspection.dart';
 import 'package:parko/screens/admin/inputfield.dart';
+import 'package:parko/screens/admin/inspection_detail_screen.dart';
 import 'package:parko/screens/admin/inspectsummary.dart';
 import 'package:parko/screens/admin/newform.dart';
 import 'package:parko/screens/admin/pdir.dart';
@@ -20,6 +23,7 @@ import 'package:parko/screens/admin/staffonboardingscreen.dart';
 import 'package:parko/screens/admin/staffonboardingtwo.dart';
 import 'package:parko/screens/admin/staffperfomanceanalytics.dart';
 import 'package:parko/screens/admin/stampinginspectionscreen.dart';
+import 'package:parko/screens/admin/surface_coating_screen.dart';
 import 'package:parko/screens/admin/surfacecoatinginspection.dart';
 import 'package:parko/screens/admin/update_password.dart';
 
@@ -83,7 +87,7 @@ GoRouter setupRouter() {
       ),
       GoRoute(
         path: '/dashboard/incominginspection/all',
-        builder: (context, state) => Placeholder(),
+        builder: (context, state) => InspectionScreen(),
       ),
 
       // Forming Process
@@ -93,7 +97,7 @@ GoRouter setupRouter() {
       ),
       GoRoute(
         path: '/dashboard/forminginspection/all',
-        builder: (context, state) => FormingInspectionsList(),
+        builder: (context, state) => InspectionListScreen(),
       ),
 
       // Surface Coating
@@ -103,7 +107,7 @@ GoRouter setupRouter() {
       ),
       GoRoute(
         path: '/dashboard/surfacecoating/all',
-        builder: (context, state) => Placeholder(),
+        builder: (context, state) => SurfaceCoatingListScreen(),
       ),
 
       // Assembly Line
@@ -154,6 +158,13 @@ GoRouter setupRouter() {
       GoRoute(
         path: '/dashboard/qcparameter/all',
         builder: (context, state) => Placeholder(),
+      ),
+      GoRoute(
+        path: '/inspection/:id',
+        builder: (context, state) {
+          final inspectionId = state.pathParameters['id']!;
+          return InspectionDetailScreen(inspectionId: inspectionId);
+        },
       ),
     ],
   );
